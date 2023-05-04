@@ -8,42 +8,36 @@ type Document struct {
 	Location    string `json:"location"`
 }
 
-var allDocs map[string]Document = make(map[string]Document)
-
 func AddDocument(doc Document) error {
-	_, exists := allDocs[doc.Name]
+	_, exists := DbRetrieveDocument(doc.Name)
 	if exists {
 		return errors.New("Document with the same name already exists")
 	}
 
-	allDocs[doc.Name] = doc
+	DbInsertDocument(doc)
 	return nil
 }
 
 func GetAllDocuments() []Document {
-	docsSlice := make([]Document, 0, len(allDocs))
-	for _, val := range allDocs {
-		docsSlice = append(docsSlice, val)
-	}
-	return docsSlice
+	return DbRetrieveAllDocuments()
 }
 
 func UpdateDocument(doc Document) error {
-	_, exists := allDocs[doc.Name]
+	_, exists := DbRetrieveDocument(doc.Name)
 	if !exists {
 		return errors.New("Document could not be found")
 	}
 
-	allDocs[doc.Name] = doc
+	DbUpdateDocument(doc)
 	return nil
 }
 
 func DeleteDocument(doc Document) error {
-	_, exists := allDocs[doc.Name]
+	_, exists := DbRetrieveDocument(doc.Name)
 	if !exists {
 		return errors.New("Document could not be found")
 	}
 
-	delete(allDocs, doc.Name)
+	DbDeleteDocument(doc.Name)
 	return nil
 }

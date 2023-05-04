@@ -18,7 +18,6 @@ func SetupDocumentsControllers(router *mux.Router) {
 		w.Header().Set("Content-Type", "application/json")
 
 		encoder.Encode(docs)
-		// fmt.Fprint(w, docs)
 
 	}).Methods("GET")
 
